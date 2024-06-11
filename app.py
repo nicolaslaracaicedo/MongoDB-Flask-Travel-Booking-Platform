@@ -7,6 +7,10 @@ app = Flask(__name__)
 environment = Environment()
 userController = UserController(environment)
 
+@app.route('/', methods=['GET', 'POST'])
+def inicio_sesion():
+    return render_template('index.html')
+
 @app.route('/usuarios/nuevo', methods=['GET', 'POST'])
 def crear_usuario():
     return userController.crear_usuario()
