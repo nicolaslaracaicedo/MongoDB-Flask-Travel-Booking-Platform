@@ -68,3 +68,9 @@ class UserRepository:
     def eliminar_usuario(self, usuario):
         resultado = self.coleccion.delete_one({'email': usuario.email})
         return resultado.deleted_count > 0
+    
+    def obtener_todos_los_usuarios(self):
+        usuarios = []
+        for usuario_data in self.coleccion.find():
+            usuarios.append(User(usuario_data['username'], usuario_data['email'], usuario_data['password']))
+        return usuarios

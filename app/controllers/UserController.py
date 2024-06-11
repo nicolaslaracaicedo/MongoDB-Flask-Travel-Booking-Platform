@@ -47,3 +47,7 @@ class UserController:
             return redirect(url_for('listar_usuarios'))
         else:
             return jsonify({"error": "Usuario no encontrado"}), 404
+        
+    def listar_todos_los_usuarios(self):
+        usuarios = self.userService.obtener_todos_los_usuarios()
+        return render_template('User/index.html', usuarios=usuarios)
