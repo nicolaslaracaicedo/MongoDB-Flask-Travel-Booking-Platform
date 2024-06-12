@@ -5,16 +5,24 @@ class UserService:
     def __init__(self, environment):
         self.repository = UserRepository(environment)
 
-    def agregar_usuario(self, username, email, password):
-        self.repository.insertar_usuario(User(username, email, password))
+    def add_user(self, name, email, phone, password, address, travel_history=None):
+        user = User(name, email, phone, password, address, travel_history)
+        self.repository.insert_user(user)
 
-    def obtener_usuario_por_email(self, email):
-        return self.repository.obtener_usuario_por_email(email)
+    def get_user_by_email(self, email):
+        return self.repository.get_user_by_email(email)
 
-    def actualizar_usuario(self, email, nuevo_username=None, nuevo_password=None):
-        return self.repository.actualizar_usuario(User('', email, ''), nuevo_username, nuevo_password)
+    def update_user(self, email, new_name=None, new_phone=None, new_password=None, new_address=None):
+        user = self.repository.get_user_by_email(email)
+        if user:
+            return self.repository.update_user(user, new_name, new_phone, new_password, new_address)
+        return False
 
-    def eliminar_usuario(self, email):
-        return self.repository.eliminar_usuario(User('', email, ''))
-    def obtener_todos_los_usuarios(self):
-        return self.repository.obtener_todos_los_usuarios()
+    def delete_user(self, email):
+        user = self.repository.get_user_by_email(email)
+        if user:
+            return self.repository.delete_user(user)
+        return False
+
+    def get_all_users(self):
+        return self.repository.get_all_users()

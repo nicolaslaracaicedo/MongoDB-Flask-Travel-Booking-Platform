@@ -6,48 +6,54 @@ class UserController:
     def __init__(self, environment):
         self.userService = UserService(environment)
 
-    def crear_usuario(self):
+    def create_user(self):
         if request.method == 'POST':
-            username = request.form['username']
+            name = request.form['name']
             email = request.form['email']
+            phone = request.form['phone']
             password = request.form['password']
-            if username and email and password:
-                self.userService.agregar_usuario(username, email, password)
-                return redirect(url_for('listar_usuarios'))
+            address = request.form['address']
+            # Assuming travel history is received as JSON and converted to Python list
+            travel_history = request.json.get('travel_history', [])
+            if name and email and password:
+                self.userService.add_user(name, email, phone, password, address, travel_history)
+                return redirect(url_for('list_users'))
             else:
-                return jsonify({"error": "Se requieren todos los campos"}), 400
-        return render_template('User/crear_usuario.html')
+                return jsonify({"error": "All fields are required"}), 400
+        return render_template('User/create_user.html')
 
-    def ver_usuario(self, email):
-        usuario = self.userService.obtener_usuario_por_email(email)
-        if usuario:
-            return render_template('User/ver_usuario.html', usuario=usuario)
+    def view_user(self, email):
+        user = self.userService.get_user_by_email(email)
+        if user:
+            return render_template('User/view_user.html', user=user)
         else:
-            return jsonify({"error": "Usuario no encontrado"}), 404
+            return jsonify({"error": "User not found"}), 404
 
-    def editar_usuario(self, email):
+    def edit_user(self, email):
         if request.method == 'POST':
-            nuevo_username = request.form['username']
-            nuevo_password = request.form['password']
-            if nuevo_username or nuevo_password:
-                if self.userService.actualizar_usuario(email, nuevo_username, nuevo_password):
-                    return redirect(url_for('listar_usuarios'))
+            new_name = request.form['name']
+            new_phone = request.form['phone']
+            new_password = request.form['password']
+            new_address = request.form['address']
+            if new_name or new_phone or new_password or new_address:
+                if self.userService.update_user(email, new_name, new_phone, new_password, new_address):
+                    return redirect(url_for('list_users'))
                 else:
-                    return jsonify({"error": "Usuario no encontrado"}), 404
+                    return jsonify({"error": "User not found"}), 404
             else:
-                return jsonify({"error": "Se requiere al menos un campo para actualizar"}), 400
-        usuario = self.userService.obtener_usuario_por_email(email)
-        if usuario:
-            return render_template('User/actualizar_usuario.html', usuario=usuario)
+                return jsonify({"error": "At least one field is required for update"}), 400
+        user = self.userService.get_user_by_email(email)
+        if user:
+            return render_template('User/update_user.html', user=user)
         else:
-            return jsonify({"error": "Usuario no encontrado"}), 404
+            return jsonify({"error": "User not found"}), 404
 
-    def eliminar_usuario(self, email):
-        if self.userService.eliminar_usuario(email):
-            return redirect(url_for('listar_usuarios'))
+    def delete_user(self, email):
+        if self.userService.delete_user(email):
+            return redirect(url_for('list_users'))
         else:
-            return jsonify({"error": "Usuario no encontrado"}), 404
+            return jsonify({"error": "User not found"}), 404
         
-    def listar_todos_los_usuarios(self):
-        usuarios = self.userService.obtener_todos_los_usuarios()
-        return render_template('User/index.html', usuarios=usuarios)
+    def list_all_users(self):
+        users = self.userService.get_all_users()
+        return render_template('User/index.html', users=users)

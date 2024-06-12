@@ -1,18 +1,46 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Actualizar Usuario</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Font Awesome -->
+    <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" rel="stylesheet">
 </head>
 <body>
-    <h1>Actualizar Usuario</h1>
-    <form method="POST" action="/usuarios/{{ usuario.email }}">
-        <label for="username">Nuevo nombre de usuario:</label><br>
-        <input type="text" id="username" name="username" value="{{ usuario.username }}"><br>
-        <label for="password">Nueva contraseña:</label><br>
-        <input type="password" id="password" name="password"><br><br>
-        <button type="submit">Actualizar Usuario</button>
-    </form>
+    <div class="container mt-5">
+        <div class="row justify-content-center">
+            <div class="col-md-6">
+                <div class="card">
+                    <div class="card-header bg-warning text-white text-center">
+                        <h1><i class="fas fa-user-edit"></i> Actualizar Usuario</h1>
+                    </div>
+                    <div class="card-body">
+                        <form method="POST" action="/usuarios/{{ usuario.email }}/editar">
+                            <div class="form-group">
+                                <label for="username">Nuevo nombre de usuario:</label>
+                                <input type="text" class="form-control" id="username" name="username" value="{{ usuario.username }}">
+                            </div>
+                            <div class="form-group">
+                                <label for="password">Nueva contraseña:</label>
+                                <input type="password" class="form-control" id="password" name="password">
+                            </div>
+                            <button type="submit" class="btn btn-warning btn-block"><i class="fas fa-save"></i> Actualizar Usuario</button>
+                        </form>
+                    </div>
+                    <div class="card-footer text-center">
+                        <a href="/usuarios" class="btn btn-secondary"><i class="fas fa-arrow-left"></i> Cancelar</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Bootstrap JS and dependencies -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>

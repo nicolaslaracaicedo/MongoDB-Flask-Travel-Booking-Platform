@@ -8,28 +8,28 @@ environment = Environment()
 userController = UserController(environment)
 
 @app.route('/', methods=['GET', 'POST'])
-def inicio_sesion():
+def login():
     return render_template('index.html')
 
-@app.route('/usuarios/nuevo', methods=['GET', 'POST'])
-def crear_usuario():
-    return userController.crear_usuario()
+@app.route('/users/new', methods=['GET', 'POST'])
+def create_user():
+    return userController.create_user()
 
-@app.route('/usuarios/<email>', methods=['GET'])
-def ver_usuario(email):
-    return userController.ver_usuario(email)
+@app.route('/users/<email>', methods=['GET'])
+def view_user(email):
+    return userController.view_user(email)
 
-@app.route('/usuarios/<email>/editar', methods=['GET', 'POST'])
-def editar_usuario(email):
-    return userController.editar_usuario(email)
+@app.route('/users/<email>/edit', methods=['GET', 'POST'])
+def edit_user(email):
+    return userController.edit_user(email)
 
-@app.route('/usuarios/<email>/eliminar', methods=['POST'])
-def eliminar_usuario(email):
-    return userController.eliminar_usuario(email)
+@app.route('/users/<email>/delete', methods=['POST'])
+def delete_user(email):
+    return userController.delete_user(email)
 
-@app.route('/usuarios', methods=['GET'])
-def listar_usuarios():
-    return userController.listar_todos_los_usuarios()
+@app.route('/users', methods=['GET'])
+def list_users():
+    return userController.list_all_users()
 
 if __name__ == '__main__':
     app.run(debug=True)
